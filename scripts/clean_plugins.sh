@@ -1,44 +1,34 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+CURRENT_DIR="$(cd "$(dirname "${0}" )" && pwd)"
 
-source "$CURRENT_DIR/shared_functions.sh"
+. "${CURRENT_DIR}/helpers.sh"
 
-clean_plugins() {
-	local plugins plugin plugin_directory
-	plugins="$(shared_get_tpm_plugins_list)"
+_clean_plugins() {
+    _set_default_vars_helper || return 1
 
-	for plugin_directory in "$SHARED_TPM_PATH"/*; do
-		[ -d "${plugin_directory}" ] || continue
-		plugin="$(shared_plugin_name "${plugin_directory}")"
-		case "${plugins}" in
-			*"${plugin}"*) : ;;
-			*)
-			[ "${plugin}" = "tpm" ] && continue
-			echo_message "Removing \"$plugin\""
-			rm -rf "${plugin_directory}"
-			[ -d "${plugin_directory}" ] &&
-			echo_message "  \"$plugin\" clean fail" ||
-			echo_message "  \"$plugin\" clean success"
-			;;
-		esac
-	done
+    _cplugins__plugins="$(_get_plugins_list_helper)"
+
+    for _cplugins__plugin_directory in "${TMUX_PLUGIN_MANAGER_PATH}"/*; do
+        [ -d "${_cplugins__plugin_directory}" ] || continue
+        _cplugins__plugin_name="$(_get_plugin_name_helper "${_cplugins__plugin_directory}")"
+        case "${_cplugins__plugins}" in
+            *"${_cplugins__plugin_name}"*) : ;;
+        *)
+            [ "${_cplugins__plugin_name}" = "tundle" ] && continue
+            _print_message_helper "Removing \"${_cplugins__plugin_name}\""
+            rm -rf "${_cplugins__plugin_directory}"
+            [ -d "${_cplugins__plugin_directory}" ] &&
+                _print_message_helper "  \"${_cplugins__plugin_name}\" clean fail" ||
+                _print_message_helper "  \"${_cplugins__plugin_name}\" clean success"
+            ;;
+    esac
+done
 }
 
-ensure_tpm_path_exists() {
-	mkdir -p "$SHARED_TPM_PATH"
-}
+_reload_tmux_environment_helper
+_clean_plugins
+_reload_tmux_environment_helper
+_reloaded_message_helper
 
-reload_tmux_environment() {
-	tmux source-file ~/.tmux.conf >/dev/null 2>&1
-}
-
-main() {
-	reload_tmux_environment
-	shared_set_tpm_path_constant
-	ensure_tpm_path_exists
-	clean_plugins
-	reload_tmux_environment
-	end_message
-}
-main
+# vim: set ts=8 sw=4 tw=0 ft=sh :

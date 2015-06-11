@@ -1,46 +1,30 @@
 #!/bin/sh
 
-_dirname()
-{   #portable dirname
-    [ -z "${1}" ] && return 1
+CURRENT_DIR="$(cd "$(dirname "${0}")" && pwd)"
 
-    #http://www.linuxselfhelp.com/gnu/autoconf/html_chapter/autoconf_10.html
-    case "${1}" in
-        /*|*/*) local dir; dir=$(expr "x${1}" : 'x\(.*\)/[^/]*' \| '.' : '.')
-                printf "%s\\n" "${dir}" ;;
-             *) printf "%s\\n" ".";;
-    esac
+. "${CURRENT_DIR}"/helpers.sh
+
+_check_binding_defined() {
+    tmux list-keys | grep "${1}" >/dev/null
 }
 
-CURRENT_DIR="$( cd "$( _dirname "$0" )" && pwd )"
+_set_tmux_conf_helper <<- HERE
+setenv -g @tpm_plugins "doesnt_matter/tmux_test_plugin"
+run-shell "${PWD}/tundle"
+HERE
 
-. "$CURRENT_DIR"/helpers.sh
+# manually creates a local tmux plugin
+_create_test_plugin_helper <<- HERE
+tmux bind-key R run-shell foo_command
+HERE
 
-check_binding_defined() {
-	local binding="$1"
-	tmux list-keys | grep -q "$binding"
-}
+tmux new-session -d  # test manually, helpful to debug
+sleep 1
 
-test_plugin_sourcing() {
-	set_tmux_conf_helper <<- HERE
-	set -g @tpm_plugins "doesnt_matter/tmux_test_plugin"
-	run-shell "$PWD/tpm"
-	HERE
+tmux new-session -d  # tmux starts detached
+_check_binding_defined "R run-shell foo_command" || _fail_helper "Plugin sourcing failed"
 
-	# manually creates a local tmux plugin
-	create_test_plugin_helper <<- HERE
-	tmux bind-key R run-shell foo_command
-	HERE
+_teardown_helper
+_exit_value_helper
 
-	tmux new-session -d  # tmux starts detached
-	check_binding_defined "R run-shell foo_command" ||
-		fail_helper "Plugin sourcing fails"
-
-	teardown_helper
-}
-
-main() {
-	test_plugin_sourcing
-	exit_value_helper
-}
-main
+# vim: set ts=8 sw=4 tw=0 ft=sh :

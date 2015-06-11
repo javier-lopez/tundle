@@ -1,0 +1,69 @@
+#!/bin/sh
+
+SUPPORTED_TMUX_VERSION="1.6"
+#SUPPORTED_TMUX_VERSION="1.9"
+
+CURRENT_DIR="$(cd "$(dirname "${0}")" && pwd)"
+
+. "${CURRENT_DIR}/scripts/vars.sh"
+. "${CURRENT_DIR}/scripts/helpers.sh"
+
+_supported_tmux_version() {
+    _stversion__supported="$(_get_digits_from_string_helper "${SUPPORTED_TMUX_VERSION}")"
+    if [ -z "${CURRENT_TMUX_VERSION}" ]; then
+        CURRENT_TMUX_VERSION="$(_get_digits_from_string_helper "$(tmux -V)")"
+        export CURRENT_TMUX_VERSION #speed up consecutive calls
+    fi
+
+    [ "${CURRENT_TMUX_VERSION}" -lt "${_stversion__supported}" ] && return 1 || return 0
+}
+
+# 1. Fetches plugin names from `@bundle|@plugin|@tpm_plugins` user variable.
+# 2. Creates full plugin path
+# 3. Sources all *.tmux files from each of the plugin directories
+#    - no errors raised if directory does not exist
+# Files are sourced as tmux config files, not as shell scripts!
+_source_plugins() {
+    _set_default_vars_helper || return 1
+    for _splugins__plugin in $(_get_plugins_list_helper); do
+        _splugins__plugin_name="$(_get_plugin_name_helper "${_splugins__plugin}")"
+
+        #allow git subdirectories, eg: github:username/repository/plugin-subdirectory
+        #drawback, plugins cannot have a directory with the same plugin name within, eg:
+        #github:username/plugin-name/plugin-name/stuff
+        [ -d "${TMUX_PLUGIN_MANAGER_PATH}/${_splugins__plugin_name}/${_splugins__plugin_name}/" ] && \
+            _splugins__plugin_name="${_splugins__plugin_name}/${_splugins__plugin_name}"
+
+        for _splugins__tmux_file in "${TMUX_PLUGIN_MANAGER_PATH}/${_splugins__plugin_name}"/*.tmux; do
+            [ -f "${_splugins__tmux_file}" ] || continue
+            # run *.tmux files as executables
+            "${_splugins__tmux_file}" >/dev/null 2>&1
+        done
+    done
+}
+
+# See scripts/vars.sh for default values
+_set_default_key_bindings() {
+    _sdkbindings__install_key="$(_get_tmux_option_helper "${INSTALL_KEY_OPTION}" "${DEFAULT_INSTALL_KEY}")"
+    tmux bind-key "${_sdkbindings__install_key}" run-shell "${CURRENT_DIR}/scripts/install_plugins.sh"
+
+    _sdkbindings__update_key="$(_get_tmux_option_helper "${UPDATE_KEY_OPTION}" "${DEFAULT_UPDATE_KEY}")"
+    tmux bind-key "${_sdkbindings__update_key}" run-shell "${CURRENT_DIR}/scripts/update_plugins_prompt.sh"
+
+    _sdkbindings__clean_key="$(_get_tmux_option_helper "${CLEAN_KEY_OPTION}" "${DEFAULT_CLEAN_KEY}")"
+    tmux bind-key "${_sdkbindings__clean_key}" run-shell "${CURRENT_DIR}/scripts/clean_plugins.sh"
+
+    _sdkbindings__list_key="$(_get_tmux_option_helper "${LIST_KEY_OPTION}" "${DEFAULT_LIST_KEY}")"
+    tmux bind-key "${_sdkbindings__list_key}" run-shell "${CURRENT_DIR}/scripts/list_plugins.sh"
+}
+
+if _supported_tmux_version; then
+    _set_default_key_bindings
+    _source_plugins
+else
+    _display_message_helper "$(printf "%s\\n" \
+    "Error, Tmux version unsupported! Please install Tmux version ${SUPPORTED_TMUX_VERSION} or greater!")"
+    exit 1
+fi
+
+# vim: set ts=8 sw=4 tw=0 ft=sh :

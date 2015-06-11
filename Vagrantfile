@@ -8,3 +8,5 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provision 'shell', path: 'vagrant_provisioning.sh'
 end
+
+#  vim: set ts=8 sw=4 tw=0 ft=ruby :

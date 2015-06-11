@@ -1,37 +1,32 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+CURRENT_DIR="$(cd "$(dirname "${0}")" && pwd)"
 
-source "$CURRENT_DIR"/helpers.sh
+. "${CURRENT_DIR}"/helpers.sh
 
-test_plugin_installation() {
-	set_tmux_conf_helper <<- HERE
-	set -g @tpm_plugins " \
-	tmux-plugins/tmux-example-plugin \
-	gh:tmux-plugins/tmux-online-status \
-	github:tmux-plugins/tmux-battery \
-	github:tmux-plugins/tmux-sidebar:master \
-	https://github.com/tmux-plugins/tmux-sensible:3ea5b \
-	http://ovh.net/files/sha1sum.txt \
-	git://git.openembedded.org/meta-micro \
-	ftp://ftp.microsoft.com/developr/readme.txt \
-	file://$PWD/tests/run-tests-within-vm"
-	run-shell "$PWD/tpm"
-	HERE
+_set_tmux_conf_helper <<- HERE
+run-shell "${PWD}/tundle"
+ setenv -g @bundle "tmux-plugins/tmux-example-plugin"
+   setenv -g @BUNDLE "gh:tmux-plugins/tmux-online-status"
+	setenv -g @plugin "github:tmux-plugins/tmux-battery"
+setenv -g @PlUgIn "github:tmux-plugins/tmux-sidebar:master"
 
-	# opens tmux and install plugins, test results with `expect`
-	"$CURRENT_DIR"/expect_successful_plugin_download_extended ||
-		fail_helper "Tmux plugin installation phase in update fails"
+setenv -g @bundle "https://github.com/chilicuil/tundle-plugins/tmux-sensible:master"
+setenv -g @bundle "http://ovh.net/files/sha1sum.txt"
+setenv -g @bundle "git://git.openembedded.org/meta-micro"
+setenv -g @bundle "ftp://ftp.microsoft.com/developr/readme.txt"
+setenv -g @bundle "file://${PWD}/tests/run-tests-within-vm"
+HERE
 
-	# opens tmux and update plugins, test results with `expect`
-	"$CURRENT_DIR"/expect_successful_update_of_all_plugins ||
-		fail_helper "Tmux 'update all plugins' fails"
+# opens tmux and install plugins, test results with `expect`
+"${CURRENT_DIR}"/expect_successful_plugin_download_extended ||
+    _fail_helper "Tmux plugin installation phase in update fails"
 
-	teardown_helper
-}
+# opens tmux and update plugins, test results with `expect`
+"${CURRENT_DIR}"/expect_successful_update_of_all_plugins ||
+    _fail_helper "Tmux 'update all plugins' fails"
 
-main() {
-	test_plugin_installation
-	exit_value_helper
-}
-main
+_teardown_helper
+_exit_value_helper
+
+# vim: set ts=8 sw=4 tw=0 ft=sh :

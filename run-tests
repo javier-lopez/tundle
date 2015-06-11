@@ -1,31 +1,26 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+CURRENT_DIR="$(cd "$(dirname "${0}")" && pwd)"
+tests_exit_value="0"
 
-# running test suite is successful by default
-tests_exit_value=0
-
-run_vagrant() {
-	vagrant up
+_run_vagrant() {
+    vagrant up
 }
 
 # Halt vagrant after tests are done running, unless KEEP_RUNNING environment
 # variable is set to 'true'.
-stop_vagrant() {
-	if [ -z "$KEEP_RUNNING" ]; then
-		vagrant halt
-	fi
+_stop_vagrant() {
+    [ -z "${KEEP_RUNNING}" ] && vagrant halt
 }
 
-run_tests() {
-	vagrant ssh -c "cd ~/tpm; ./tests/run-tests-within-vm"
-	tests_exit_value=$?
+_run_tests() {
+    vagrant ssh -c "cd ~/tpm; ./tests/run-tests-within-vm"
+    tests_exit_value="${?}"
 }
 
-main() {
-	run_vagrant
-	run_tests
-	stop_vagrant
-	exit "$tests_exit_value"
-}
-main
+_run_vagrant
+_run_tests
+_stop_vagrant
+exit "${tests_exit_value}"
+
+# vim: set ts=8 sw=4 tw=0 ft=sh :

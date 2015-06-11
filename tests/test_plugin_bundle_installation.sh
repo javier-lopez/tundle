@@ -1,28 +1,24 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+CURRENT_DIR="$(cd "$(dirname "${0}")" && pwd)"
 
-source $CURRENT_DIR/helpers.sh
+. "${CURRENT_DIR}"/helpers.sh
 
-test_plugin_installation() {
-	set_tmux_conf_helper <<- HERE
-	set -g @bUnDlE "tmux-plugins/tmux-example-plugin"
-	run-shell "$PWD/tpm"
-	HERE
+_set_tmux_conf_helper <<- HERE
+run-shell "${PWD}/tundle"
+setenv -g @bUnDlE "tmux-plugins/tmux-example-plugin"
+HERE
 
-	# opens tmux and test it with `expect`
-	"$CURRENT_DIR"/expect_successful_plugin_download ||
-		fail_helper "Tmux plugin installation fails"
+#tmux; exit
+# opens tmux and test it with `expect`
+"${CURRENT_DIR}"/expect_successful_plugin_download ||
+    _fail_helper "Tmux plugin installation failed"
 
-	# check plugin dir exists after download
-	check_dir_exists_helper "$HOME/.tmux/plugins/tmux-example-plugin/" ||
-		fail_helper "Plugin download fails"
+# check plugin dir exists after download
+[ -d "${HOME}/.tmux/plugins/tmux-example-plugin/" ] ||
+    _fail_helper "Plugin download failed"
 
-	teardown_helper
-}
+_teardown_helper
+_exit_value_helper
 
-main() {
-	test_plugin_installation
-	exit_value_helper
-}
-main
+# vim: set ts=8 sw=4 tw=0 ft=sh :

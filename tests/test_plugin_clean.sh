@@ -1,32 +1,29 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+CURRENT_DIR="$(cd "$(dirname "${0}")" && pwd)"
 
-source "$CURRENT_DIR"/helpers.sh
+. "${CURRENT_DIR}"/helpers.sh
 
-manually_install_the_plugin() {
-	rm -rf   ~/.tmux/plugins/
-	mkdir -p ~/.tmux/plugins/
-	cd ~/.tmux/plugins/
-	git clone --quiet https://github.com/tmux-plugins/tmux-example-plugin
+_manually_install_the_plugin() {
+    rm -rf   ~/.tmux/plugins/
+    mkdir -p ~/.tmux/plugins/
+    cd ~/.tmux/plugins/
+    git clone --quiet https://github.com/tmux-plugins/tmux-example-plugin
 }
 
-test_plugin_installation() {
-	set_tmux_conf_helper <<- HERE
-	run-shell "$PWD/tpm"
-	HERE
+_set_tmux_conf_helper <<- HERE
+run-shell "${PWD}/tundle"
+HERE
 
-	manually_install_the_plugin
+_manually_install_the_plugin
 
-	# opens tmux and test it with `expect`
-	"$CURRENT_DIR"/expect_successful_clean_plugins ||
-		fail_helper "Clean fails"
+#tmux #test manually, helpful to debug
 
-	teardown_helper
-}
+# opens tmux and test it with `expect`
+"${CURRENT_DIR}"/expect_successful_clean_plugins ||
+    _fail_helper "Clean plugin failed"
 
-main() {
-	test_plugin_installation
-	exit_value_helper
-}
-main
+_teardown_helper
+_exit_value_helper
+
+# vim: set ts=8 sw=4 tw=0 ft=sh :

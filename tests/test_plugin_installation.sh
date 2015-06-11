@@ -1,40 +1,23 @@
 #!/bin/sh
 
-_dirname()
-{   #portable dirname
-    [ -z "${1}" ] && return 1
+CURRENT_DIR="$(cd "$(dirname "${0}")" && pwd)"
 
-    #http://www.linuxselfhelp.com/gnu/autoconf/html_chapter/autoconf_10.html
-    case "${1}" in
-        /*|*/*) local dir; dir=$(expr "x${1}" : 'x\(.*\)/[^/]*' \| '.' : '.')
-                printf "%s\\n" "${dir}" ;;
-             *) printf "%s\\n" ".";;
-    esac
-}
+. "${CURRENT_DIR}"/helpers.sh
 
-CURRENT_DIR="$( cd "$( _dirname "$0" )" && pwd )"
+_set_tmux_conf_helper <<- HERE
+run-shell "${PWD}/tundle"
+setenv -g @tpm_plugins "tmux-plugins/tmux-example-plugin"
+HERE
 
-. "$CURRENT_DIR"/helpers.sh
+# opens tmux and test it with `expect`
+"${CURRENT_DIR}"/expect_successful_plugin_download ||
+    _fail_helper "Tmux plugin installation failed"
 
-test_plugin_installation() {
-	set_tmux_conf_helper <<- HERE
-	set -g @tpm_plugins "tmux-plugins/tmux-example-plugin"
-	run-shell "$PWD/tpm"
-	HERE
+# check plugin dir exists after download
+[ -d "${HOME}/.tmux/plugins/tmux-example-plugin/" ] ||
+    _fail_helper "Plugin download failed"
 
-	# opens tmux and test it with `expect`
-	"$CURRENT_DIR"/expect_successful_plugin_download ||
-		fail_helper "Tmux plugin installation fails"
+_teardown_helper
+_exit_value_helper
 
-	# check plugin dir exists after download
-	check_dir_exists_helper "$HOME/.tmux/plugins/tmux-example-plugin/" ||
-		fail_helper "Plugin download fails"
-
-	teardown_helper
-}
-
-main() {
-	test_plugin_installation
-	exit_value_helper
-}
-main
+# vim: set ts=8 sw=4 tw=0 ft=sh :

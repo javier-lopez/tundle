@@ -1,105 +1,99 @@
-# Tmux Plugin Manager
+## About
 
-[![Build Status](https://travis-ci.org/tmux-plugins/tpm.png?branch=master)](https://travis-ci.org/tmux-plugins/tpm)
+[![Build Status](https://travis-ci.org/chilicuil/tundle.png?branch=master)](https://travis-ci.org/chilicuil/tundle)
 
-Installs and loads TMUX plugins.
+[Tundle](https://github.com/chilicuil/tundle/) is short for _tmux + bundle_ and is a [tmux](http://en.wikipedia.org/wiki/tmux) plugin manager.
 
-### Installation
+<p align="center">
+<img src="http://javier.io/assets/img/tundle.gif" alt="tundle"/>
+</p>
 
-Requirements: `tmux` version 1.9 (or higher), `git`, `bash`.
+Tundle is based on [tpm](https://github.com/tmux-plugins/tpm) with additional syntax sugar and relaxed dependency requirements.
 
-Clone TPM:
+## Quick start
 
-    $ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+1. Set up [Tundle](https://github.com/chilicuil/tundle/):
 
-Put this at the bottom of your `.tmux.conf` (backslashes at the end of the lines
-are required):
+   ```
+   $ git clone --depth=1 https://github.com/chilicuil/tundle ~/.tmux/plugins/tundle
+   ```
 
-    # List of plugins
-    # Supports `github_username/repo` or full git repo URLs
-    set -g @tpm_plugins '              \
-      tmux-plugins/tpm                 \
-      tmux-plugins/tmux-sensible       \
-    '
-    # Other examples:
-    # github_username/plugin_name    \
-    # git@github.com/user/plugin     \
-    # git@bitbucket.com/user/plugin  \
+2. Configure bundles:
 
-    # Initializes TMUX plugin manager.
-    # Keep this line at the very bottom of tmux.conf.
-    run-shell '~/.tmux/plugins/tpm/tpm'
+   Sample `~/.tmux.conf`:
 
-Reload TMUX environment so TPM is sourced:
+   ```
+   run-shell "~/.tmux/plugins/tundle/tundle"
 
-    # type this in terminal
-    $ tmux source-file ~/.tmux.conf
+   #let tundle manage tundle, required!
+   setenv -g @bundle "chilicuil/tundle" #set -g can be used if tmux >= 1.9
 
-That's it!
+   #from GitHub
+   setenv -g @BUNDLE "gh:chilicuil/tundle-plugins/tmux-sensible"
+       #options
+       #setenv -g @plugin-option "setting"
+   setenv -g @plugin "tmux-plugins/tmux-battery"
+   setenv -g @PLUGIN "github:tmux-plugins/tmux-sidebar:master"
+   setenv -g @bundle "https://github.com/tmux-plugins/tmux-online-status:3ea5b"
 
-### Installing plugins
+   #from non GitHub
+   #setenv -g @bundle "git://git.domain.ltd/rep.git"
 
-1. add a new plugin to the `@tpm_plugins` list
-2. hit `prefix + I` (I as in *I*nstall) to fetch the plugin
+   #from web
+   #setenv -g @bundle "http://domain.ltd/awesome-plugin"
+   #setenv -g @bundle "ftp://domain.ltd/yet/another-awesome-plugin"
 
-You're good to go! The plugin was cloned to `~/.tmux/plugins/` dir and sourced.
+   #from file system
+   #setenv -g @bundle "file://path/to/tmux-plugin"
 
-### Uninstalling plugins
+   # Brief help
+   # `prefix + I`       (I as in *I*install) to install configured bundles
+   # `prefix + U`       (U as in *U*pdate) to update configured bundles
+   # `prefix + alt + u` (u as in *u*install) to remove unused bundles
+   # `prefix + alt + l` (l as in *l*ist) to list installed bundles
+   ```
 
-1. remove plugin from `@tpm_plugins` list
-2. hit `prefix + alt + u` (I as in *u*install) to remove the plugin
+3. Install configured bundles:
 
-### Key bindings
+   ```
+   $ tmux source-file ~/.tmux.conf
+   ```
 
-`prefix + I`
-- installs new plugins from github or any other git repo
-- refreshes TMUX environment
+Hit `prefix + I` (or run `vim +BundleInstall +qall` for CLI lovers)
 
-`prefix + U`
-- updates plugin(s)
+Installation requires [Git](http://git-scm.com/) and triggers [`git clone`](http://gitref.org/creating/#clone) for each configured repo to `~/.tmux/plugins/`.
 
-`prefix + alt + u`
-- uninstall unused plugin(s)
+## Uninstalling
 
-### List of plugins
+If by any reason you dislike [Tundle](https://github.com/chilicuil/tundle) you can uninstall it by removing the top tundle directory:
 
-For more plugins, check [here](https://github.com/tmux-plugins).
+   ```
+   $ rm -rf ~/.tmux/plugins/tundle
+   ```
 
-### Wiki pages
+## Getting plugins
 
-More advanced features, regular users probably do not need this:
+Common plugins are available in the following repositories:
 
-- [installing plugins via the command line](https://github.com/tmux-plugins/tpm/wiki/Installing-plugins-via-the-command-line-only)
-- [changing plugins install dir](https://github.com/tmux-plugins/tpm/wiki/Changing-plugins-install-dir)
+ [tundle-plugins](https://github.com/chilicuil/tundle-plugins)
+ [tmux-plugins](https://github.com/tmux-plugins), you may require up to date tmux and bash versions
 
-### Creating plugins
+## Inspiration and ideas from
 
-[How to create a plugin](HOW_TO_PLUGIN.md). It's easy.
+* [tpm](https://github.com/tmux-plugins/tpm)
+* [vundle](https://github.com/gmarik/vundle)
+* [shundle](https://github.com/chilicuil/shundle)
 
-### Tests
+## Also
 
-Tests run on [travis](https://travis-ci.org/tmux-plugins/tpm).
+* tundle was developed against tmux 1.6 and dash 0.5 on Linux
+* tundle will try to run in as many platforms & shells as possible
+* tundle tries to be as [KISS](http://en.wikipedia.org/wiki/KISS_principle) as possible
 
-When run locally, [vagrant](https://www.vagrantup.com/) is required.
-Run tests with:
+## TODO:
+[Tundle](https://github.com/chilicuil/tundle/) is a work in progress, any ideas and patches are appreciated.
 
-    # within project directory
-    $ ./run-tests
-
-### Other goodies
-
-- [tmux-copycat](https://github.com/tmux-plugins/tmux-copycat) - a plugin for
-  regex searches in tmux and fast match selection
-- [tmux-yank](https://github.com/tmux-plugins/tmux-yank) - enables copying
-  highlighted text to system clipboard
-- [tmux-open](https://github.com/tmux-plugins/tmux-open) - a plugin for quickly
-  opening highlighted file or a url
-- [tmux-continuum](https://github.com/tmux-plugins/tmux-continuum) - automatic
-  restoring and continuous saving of tmux env
-
-You might want to follow [@brunosutic](https://twitter.com/brunosutic) on
-twitter if you want to hear about new tmux plugins or feature updates.
-
-### License
-
-[MIT](LICENSE.md)
+* better coverage tests
+* improve install|update visualization
+* parallel installation process
+* make it rock!

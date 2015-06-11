@@ -13,7 +13,7 @@ sleep 1
 send "I"
 
 # cloning might take a while
-set timeout 15
+set timeout 30
 
 expect {
   "Installing \"tmux-example-plugin\"" {
