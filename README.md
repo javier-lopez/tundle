@@ -59,7 +59,7 @@ Tundle is based on [tpm](https://github.com/tmux-plugins/tpm) with additional sy
    $ tmux source-file ~/.tmux.conf
    ```
 
-Hit `prefix + I` (or run `vim +BundleInstall +qall` for CLI lovers)
+Hit `prefix + I` (or run `here tmux free installation script` for CLI lovers)
 
 Installation requires [Git](http://git-scm.com/) and triggers [`git clone`](http://gitref.org/creating/#clone) for each configured repo to `~/.tmux/plugins/`.
 
@@ -75,8 +75,8 @@ If by any reason you dislike [Tundle](https://github.com/chilicuil/tundle) you c
 
 Common plugins are available in the following repositories:
 
- [tundle-plugins](https://github.com/chilicuil/tundle-plugins)
- [tmux-plugins](https://github.com/tmux-plugins), you may require up to date tmux and bash versions
+* [tundle-plugins](https://github.com/chilicuil/tundle-plugins)
+* [tmux-plugins](https://github.com/tmux-plugins), you may require up to date tmux and bash versions
 
 ## Inspiration and ideas from
 
