@@ -2,12 +2,14 @@
 before_install:
   - sudo apt-get update
   - sudo apt-get install -y git-core expect
-  - sudo apt-get install -y python-software-properties software-properties-common
+  # travis by default uses Ubuntu 12.04 which contains tmux 1.6
+  - sudo apt-get install -y tmux
+  #- sudo apt-get install -y python-software-properties software-properties-common
 
 # install latest Tmux 1.9a
-install:
-  - sudo add-apt-repository -y ppa:pi-rho/dev
-  - sudo apt-get update
-  - sudo apt-get install -y tmux=1.9a-1~ppa1~p
+#install:
+  #- sudo add-apt-repository -y ppa:pi-rho/dev
+  #- sudo apt-get update
+  #- sudo apt-get install -y tmux=1.9a-1~ppa1~p
 
 script: ./tests/run-tests-within-vm
