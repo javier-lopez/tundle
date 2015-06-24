@@ -75,8 +75,8 @@ If by any reason you dislike [Tundle](https://github.com/chilicuil/tundle) you c
 
 Common plugins are available in the following repositories:
 
-* [tundle-plugins](https://github.com/chilicuil/tundle-plugins)
-* [tmux-plugins](https://github.com/tmux-plugins), you may require up to date tmux and bash versions
+* [tundle-plugins](https://github.com/chilicuil/tundle-plugins) (tmux => 1.6 and posix sh)
+* [tmux-plugins](https://github.com/tmux-plugins)  (tmux => 1.9 and bash)
 
 ## Inspiration and ideas from
 
