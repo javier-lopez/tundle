@@ -10,9 +10,10 @@ CURRENT_DIR="$(cd "$(dirname "${0}")" && pwd)"
 
 _supported_tmux_version() {
     _stversion__supported="$(_get_digits_from_string_helper "${SUPPORTED_TMUX_VERSION}")"
-    if [ -z "${CURRENT_TMUX_VERSION}" ]; then
+    if [ -z "${CURRENT_TMUX_VERSION}" ] || [ -z "$(_get_tmux_environment_helper "TMUX_VERSION")" ]; then
         CURRENT_TMUX_VERSION="$(_get_digits_from_string_helper "$(tmux -V)")"
         export CURRENT_TMUX_VERSION #speed up consecutive calls
+        tmux set-environment -g TMUX_VERSION "${CURRENT_TMUX_VERSION}"
     fi
 
     [ "${CURRENT_TMUX_VERSION}" -lt "${_stversion__supported}" ] && return 1 || return 0

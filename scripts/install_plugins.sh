@@ -8,9 +8,9 @@ _git_clone_subdirectory() {
     _gcsubdirectory__plugin_name="$(_get_plugin_name_helper "${1}")"
     cd "${TMUX_PLUGIN_MANAGER_PATH}" && \
     GIT_TERMINAL_PROMPT="0" git clone --recursive "${2}" "${1%/*}" "${_gcsubdirectory__plugin_name}" && \
-    cd "${_gcsubdirectory__plugin_name}" && git config core.sparsecheckout true 2>&1 >/dev/null      && \
+    cd "${_gcsubdirectory__plugin_name}" && git config core.sparsecheckout true >/dev/null 2>&1      && \
     printf "%s" "${_gcsubdirectory__plugin_name}" > .git/info/sparse-checkout && \
-    git read-tree -m -u HEAD 2>&1 >/dev/null
+    git read-tree -m -u HEAD >/dev/null 2>&1
 }
 
 _git_clone() {

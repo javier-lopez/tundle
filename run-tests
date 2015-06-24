@@ -1,6 +1,5 @@
 #!/bin/sh
 
-CURRENT_DIR="$(cd "$(dirname "${0}")" && pwd)"
 tests_exit_value="0"
 
 _run_vagrant() {

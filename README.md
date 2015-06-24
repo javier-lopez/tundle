@@ -34,7 +34,7 @@ Tundle is based on [tpm](https://github.com/tmux-plugins/tpm) with additional sy
        #setenv -g @plugin-option "setting"
    setenv -g @plugin "tmux-plugins/tmux-battery"
    setenv -g @PLUGIN "github:tmux-plugins/tmux-sidebar:master"
-   setenv -g @bundle "https://github.com/tmux-plugins/tmux-online-status:3ea5b"
+   setenv -g @bundle "https://github.com/tmux-plugins/tmux-online-status:990737"
 
    #from non GitHub
    #setenv -g @bundle "git://git.domain.ltd/rep.git"
