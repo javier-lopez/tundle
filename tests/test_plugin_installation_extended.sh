@@ -11,7 +11,7 @@ run-shell "${PWD}/tundle"
 	setenv -g @plugin "github:tmux-plugins/tmux-battery"
 setenv -g @PlUgIn "github:tmux-plugins/tmux-sidebar:master"
 
-setenv -g @bundle "https://github.com/tmux-plugins/tmux-sensible:3ea5b"
+setenv -g @bundle "chilicuil/tundle-plugins/tmux-sensible:c5c7ea1"
 setenv -g @bundle "http://ovh.net/files/sha1sum.txt"
 setenv -g @bundle "git://git.openembedded.org/meta-micro"
 setenv -g @bundle "ftp://ftp.microsoft.com/developr/readme.txt"

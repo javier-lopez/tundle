@@ -7,7 +7,7 @@ CURRENT_DIR="$(cd "$(dirname "${0}")" && pwd)"
 _git_clone_subdirectory() {
     _gcsubdirectory__plugin_name="$(_get_plugin_name_helper "${1}")"
     cd "${TMUX_PLUGIN_MANAGER_PATH}" && \
-    GIT_TERMINAL_PROMPT="0" git clone --recursive "${2}" "${1%/*}" "${_gcsubdirectory__plugin_name}" && \
+    GIT_TERMINAL_PROMPT="0" git clone --recursive ${2} "${1%/*}" "${_gcsubdirectory__plugin_name}" && \
     cd "${_gcsubdirectory__plugin_name}" && git config core.sparsecheckout true >/dev/null 2>&1      && \
     printf "%s" "${_gcsubdirectory__plugin_name}" > .git/info/sparse-checkout && \
     git read-tree -m -u HEAD >/dev/null 2>&1
@@ -35,12 +35,12 @@ _install_plugin_git() {
     _ipgit__plugin="${1%$_ipgit__branch}" #remove branch from plugin name
 
     if [ "${_ipgit__branch}" != ":${1}" ]; then #if exists branch/revision
-        _git_clone_subdirectory "${_ipgit__plugin}"             || \
+        _git_clone_subdirectory "https://git::@github.com/${_ipgit__plugin}" || \
         _git_clone "https://git::@github.com/${_ipgit__plugin}" || \
         _git_clone "git:${_ipgit__plugin}" || return 1
         _git_checkout "${_ipgit__plugin}" "${_ipgit__branch#:}"
     else
-        _git_clone_subdirectory "${_ipgit__plugin}" "--depth=1" || \
+        _git_clone_subdirectory "https://git::@github.com/${_ipgit__plugin}" "--depth=1" || \
         _git_clone "https://git::@github.com/${_ipgit__plugin}" "--depth=1" || \
         _git_clone "git:${_ipgit__plugin}" "--depth=1"
     fi
