@@ -18,6 +18,8 @@ setenv -g @bundle "ftp://ftp.microsoft.com/developr/readme.txt"
 setenv -g @bundle "file://${PWD}/tests/run-tests-within-vm"
 HERE
 
+#tmux #test manually, helpful to debug
+
 # opens tmux and install plugins, test results with `expect`
 "${CURRENT_DIR}"/expect_successful_plugin_download_extended ||
     _fail_helper "Tmux plugin installation phase in update fails"

@@ -36,11 +36,13 @@ _install_plugin_git() {
 
     if [ "${_ipgit__branch}" != ":${1}" ]; then #if exists branch/revision
         _git_clone_subdirectory "https://git::@github.com/${_ipgit__plugin}" || \
+        _git_clone_subdirectory "${_ipgit__plugin}" || \
         _git_clone "https://git::@github.com/${_ipgit__plugin}" || \
         _git_clone "git:${_ipgit__plugin}" || return 1
         _git_checkout "${_ipgit__plugin}" "${_ipgit__branch#:}"
     else
         _git_clone_subdirectory "https://git::@github.com/${_ipgit__plugin}" "--depth=1" || \
+        _git_clone_subdirectory "${_ipgit__plugin}" "--depth=1" || \
         _git_clone "https://git::@github.com/${_ipgit__plugin}" "--depth=1" || \
         _git_clone "git:${_ipgit__plugin}" "--depth=1"
     fi

@@ -38,7 +38,7 @@ HERE
     _fail_helper "Plugin github:tmux-plugins/tmux-sidebar:master download failed"
 
 [ -d "${HOME}/.tmux/plugins/tmux-sensible/" ] ||
-    _fail_helper "Plugin https://github.com/tmux-plugins/tmux-sensible:3ea5b download failed"
+    _fail_helper "Plugin chilicuil/tundle-plugins/tmux-sensible:c5c7ea1 download failed"
 
 [ -d "${HOME}/.tmux/plugins/sha1sum.txt/" ] ||
     _fail_helper "Plugin http://ovh.net/files/sha1sum.txt download failed"

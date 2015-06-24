@@ -9,8 +9,8 @@ spawn tmux
 # not work properly.
 sleep 1
 
-# this is tmux prefix + U
-send "U"
+## this is tmux prefix + U after chilicuil/tundle-plugins/tmux-sensible
+send "U"
 
 set timeout 30
 
@@ -65,6 +65,10 @@ expect {
     "Updating \"tmux-sidebar\"" {
 expect {
     "\"tmux-sidebar\" update success" {
+expect {
+    "Updating \"tmux-sensible\"" {
+expect {
+    "\"tmux-sensible\" update success" {
 expect {
     "Updating \"sha1sum.txt\"" {
 expect {

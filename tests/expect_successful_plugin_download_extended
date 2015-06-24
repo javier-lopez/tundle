@@ -61,8 +61,8 @@ expect {
   }
 }
 
-# this is tmux prefix + I
-send "I"
+# this is tmux prefix + I after chilicuil/tundle-plugins/tmux-sensible
+send "I"
 
 expect {
   "Already installed \"tmux-example-plugin\"" {
