@@ -25,7 +25,7 @@ HERE
     _fail_helper "Tmux plugin installation phase in update fails"
 
 # opens tmux and update plugins, test results with `expect`
-"${CURRENT_DIR}"/expect_successful_update_of_all_plugins ||
+"${CURRENT_DIR}"/expect_successful_update_of_all_plugins_extended ||
     _fail_helper "Tmux 'update all plugins' fails"
 
 _teardown_helper
