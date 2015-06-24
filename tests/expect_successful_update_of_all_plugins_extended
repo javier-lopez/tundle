@@ -86,7 +86,7 @@ expect {
 expect {
     "\"run-tests-within-vm\" update success" {
     expect { "Done, press ENTER to continue." { exit 0 } }
-          }}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
+          }}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
 
   timeout {
     puts "Update all plugins timeout";
