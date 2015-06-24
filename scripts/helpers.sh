@@ -37,22 +37,16 @@ _get_digits_from_string_helper() {
 _get_tmux_option_helper() {
     [ -z "${1}" ] && return 1
 
-    #TODO 06-06-2015 13:35 >> check out if tmux provides a global variable describing its version
-    [ -z "${CURRENT_TMUX_VERSION}" ] && {
-        CURRENT_TMUX_VERSION="$(_get_digits_from_string_helper "$(tmux -V)")";
-        #speed up consecutive calls
-        export CURRENT_TMUX_VERSION; }
-
-    if [ "${CURRENT_TMUX_VERSION}" -ge "19" ]; then
-        _gtohelper__value="$(tmux show-option -gqv "${1}")"
-    else
-        _gtohelper__value="$(tmux show-option -g|awk "/^${1}/ {print \$2}")"
-    fi
+    case "${CURRENT_TMUX_VERSION}" in
+        19) _gtohelper__value="$(tmux show-option -gqv "${1}")" ;;
+        *)  #tmux => 1.6 && < 1.9, altough could work on even lower tmux versions
+            _gtohelper__value="$(tmux show-option -g|awk "/^${1}/ {gsub(/\'/,\"\");gsub(/\"/,\"\"); print \$2; exit;}")" ;;
+    esac
 
     if [ -z "${_gtohelper__value}" ]; then
         [ -z "${2}" ] && return 1 || printf "%s\\n" "${2}"
     else
-        printf "%s\\n" "${_gtohelper__value}"
+        printf "%s" "${_gtohelper__value}"
     fi
 }
 
