@@ -7,7 +7,7 @@ CURRENT_DIR="$(cd "$(dirname "${0}")" && pwd)"
 _git_clone_subdirectory() {
     _gcsubdirectory__plugin_name="$(_get_plugin_name_helper "${1}")"
     cd "${TMUX_PLUGIN_MANAGER_PATH}" && \
-    GIT_TERMINAL_PROMPT="0" git clone --recursive ${2} "${1%/*}" "${_gcsubdirectory__plugin_name}" && \
+    GIT_TERMINAL_PROMPT="0" git clone --recursive ${2} "${1%/*}" "${_gcsubdirectory__plugin_name}" >/dev/null && \
     cd "${_gcsubdirectory__plugin_name}" && git config core.sparsecheckout true >/dev/null 2>&1      && \
     printf "%s" "${_gcsubdirectory__plugin_name}" > .git/info/sparse-checkout && \
     git read-tree -m -u HEAD >/dev/null 2>&1
@@ -70,8 +70,15 @@ _install_plugins() {
 
         if [ -d "${TMUX_PLUGIN_MANAGER_PATH}/${_iplugins__plugin_name}/" ]; then
             _print_message_helper "Already installed \"${_iplugins__plugin_name}\""
+            if [ "${TMUX_VERSION}" -lt "19" ]; then
+                tmux < 1.9 versions delay the fullscreen output, so give additional notifications
+                _display_message_helper "Already installed \"${_iplugins__plugin_name}\"" "50000"
+            fi
         else
             _print_message_helper "Installing \"${_iplugins__plugin_name}\""
+            if [ "${TMUX_VERSION}" -lt "19" ]; then
+                _display_message_helper "Installing \"${_iplugins__plugin_name}\"" "50000"
+            fi
             _iplugins__plugin_handler="${_iplugins__plugin%%:*}:"
             #remove handler prefix
             _iplugins__plugin_base="${_iplugins__plugin#$_iplugins__plugin_handler}"
