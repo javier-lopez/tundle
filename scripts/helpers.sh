@@ -37,11 +37,11 @@ _get_digits_from_string_helper() {
 _get_tmux_option_helper() {
     [ -z "${1}" ] && return 1
 
-    case "${CURRENT_TMUX_VERSION}" in
-        19) _gtohelper__value="$(tmux show-option -gqv "${1}")" ;;
-        *)  #tmux => 1.6 && < 1.9, altough could work on even lower tmux versions
-            _gtohelper__value="$(tmux show-option -g|awk "/^${1}/ {gsub(/\'/,\"\");gsub(/\"/,\"\"); print \$2; exit;}")" ;;
-    esac
+    if [ "${TMUX_VERSION}" -ge "19" ]; then
+        _gtohelper__value="$(tmux show-option -gqv "${1}")"
+    else #tmux => 1.6 altough could work on even lower tmux versions
+        _gtohelper__value="$(tmux show-option -g|awk "/^${1}/ {gsub(/\'/,\"\");gsub(/\"/,\"\"); print \$2; exit;}")"
+    fi
 
     if [ -z "${_gtohelper__value}" ]; then
         [ -z "${2}" ] && return 1 || printf "%s\\n" "${2}"
