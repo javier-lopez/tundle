@@ -71,7 +71,7 @@ _install_plugins() {
         if [ -d "${TMUX_PLUGIN_MANAGER_PATH}/${_iplugins__plugin_name}/" ]; then
             _print_message_helper "Already installed \"${_iplugins__plugin_name}\""
             if [ "${TMUX_VERSION}" -lt "19" ]; then
-                tmux < 1.9 versions delay the fullscreen output, so give additional notifications
+                #tmux < 1.9 versions delay fullscreen output, so give additional notifications
                 _display_message_helper "Already installed \"${_iplugins__plugin_name}\"" "50000"
             fi
         else
