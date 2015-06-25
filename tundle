@@ -8,17 +8,6 @@ CURRENT_DIR="$(cd "$(dirname "${0}")" && pwd)"
 . "${CURRENT_DIR}/scripts/vars.sh"
 . "${CURRENT_DIR}/scripts/helpers.sh"
 
-_supported_tmux_version() {
-    _stversion__supported="$(_get_digits_from_string_helper "${SUPPORTED_TMUX_VERSION}")"
-    if [ -z "${TMUX_VERSION}" ] || [ -z "$(_get_tmux_environment_helper "TMUX_VERSION")" ]; then
-        TMUX_VERSION="$(_get_digits_from_string_helper "$(tmux -V)")"
-        export TMUX_VERSION #speed up consecutive calls
-        tmux set-environment -g TMUX_VERSION "${TMUX_VERSION}"
-    fi
-
-    [ "${TMUX_VERSION}" -lt "${_stversion__supported}" ] && return 1 || return 0
-}
-
 # 1. Fetches plugin names from `@bundle|@plugin|@tpm_plugins` user variable.
 # 2. Creates full plugin path
 # 3. Sources all *.tmux files from each of the plugin directories
@@ -45,16 +34,16 @@ _source_plugins() {
 
 # See scripts/vars.sh for default values
 _set_default_key_bindings() {
-    _sdkbindings__install_key="$(_get_tmux_option_helper "${INSTALL_KEY_OPTION}" "${DEFAULT_INSTALL_KEY}")"
+    _sdkbindings__install_key="$(_get_tmux_option_global_helper "${INSTALL_KEY_OPTION}" "${DEFAULT_INSTALL_KEY}")"
     tmux bind-key "${_sdkbindings__install_key}" run-shell "${CURRENT_DIR}/scripts/install_plugins.sh"
 
-    _sdkbindings__update_key="$(_get_tmux_option_helper "${UPDATE_KEY_OPTION}" "${DEFAULT_UPDATE_KEY}")"
+    _sdkbindings__update_key="$(_get_tmux_option_global_helper "${UPDATE_KEY_OPTION}" "${DEFAULT_UPDATE_KEY}")"
     tmux bind-key "${_sdkbindings__update_key}" run-shell "${CURRENT_DIR}/scripts/update_plugins_prompt.sh"
 
-    _sdkbindings__clean_key="$(_get_tmux_option_helper "${CLEAN_KEY_OPTION}" "${DEFAULT_CLEAN_KEY}")"
+    _sdkbindings__clean_key="$(_get_tmux_option_global_helper "${CLEAN_KEY_OPTION}" "${DEFAULT_CLEAN_KEY}")"
     tmux bind-key "${_sdkbindings__clean_key}" run-shell "${CURRENT_DIR}/scripts/clean_plugins.sh"
 
-    _sdkbindings__list_key="$(_get_tmux_option_helper "${LIST_KEY_OPTION}" "${DEFAULT_LIST_KEY}")"
+    _sdkbindings__list_key="$(_get_tmux_option_global_helper "${LIST_KEY_OPTION}" "${DEFAULT_LIST_KEY}")"
     tmux bind-key "${_sdkbindings__list_key}" run-shell "${CURRENT_DIR}/scripts/list_plugins.sh"
 }
 
