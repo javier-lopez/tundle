@@ -14,7 +14,7 @@ setenv -g @PlUgIn "github:tmux-plugins/tmux-sidebar:master"
 setenv -g @bundle "chilicuil/tundle-plugins/tmux-sensible:c5c7ea1"
 setenv -g @bundle "http://ovh.net/files/sha1sum.txt"
 setenv -g @bundle "git://git.openembedded.org/meta-micro"
-setenv -g @bundle "ftp://ftp.microsoft.com/developr/readme.txt"
+setenv -g @bundle "ftp://ftp1.us.freebsd.org/pub/FreeBSD/README.TXT"
 setenv -g @bundle "file://${PWD}/tests/run-tests-within-vm"
 HERE
 
@@ -46,8 +46,8 @@ HERE
 [ -d "${HOME}/.tmux/plugins/meta-micro/" ] ||
     _fail_helper "Plugin git://git.openembedded.org/meta-micro download failed"
 
-[ -d "${HOME}/.tmux/plugins/readme.txt/" ] ||
-    _fail_helper "Plugin ftp://ftp.microsoft.com/developr/readme.txt download failed"
+[ -d "${HOME}/.tmux/plugins/README.TXT/" ] ||
+    _fail_helper "Plugin ftp://ftp.microsoft.com/developr/README.TXT download failed"
 
 [ -d "${HOME}/.tmux/plugins/run-tests-within-vm/" ] ||
     _fail_helper "Plugin file://${PWD}/tests/run-tests-within-vm failed"

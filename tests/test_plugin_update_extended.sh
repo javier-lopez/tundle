@@ -14,7 +14,7 @@ setenv -g @PlUgIn "github:tmux-plugins/tmux-sidebar:master"
 setenv -g @bundle "https://github.com/chilicuil/tundle-plugins/tmux-sensible:master"
 setenv -g @bundle "http://ovh.net/files/sha1sum.txt"
 setenv -g @bundle "git://git.openembedded.org/meta-micro"
-setenv -g @bundle "ftp://ftp.microsoft.com/developr/readme.txt"
+setenv -g @bundle "ftp://ftp1.us.freebsd.org/pub/FreeBSD/README.TXT"
 setenv -g @bundle "file://${PWD}/tests/run-tests-within-vm"
 HERE
 

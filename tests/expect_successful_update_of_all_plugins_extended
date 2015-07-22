@@ -31,7 +31,7 @@ expect {
 expect {
     "\"meta-micro\"" {
 expect {
-    "\"readme.txt\"" {
+    "\"README.TXT\"" {
 expect {
     "\"run-tests-within-vm\"" {
 expect {
@@ -78,9 +78,9 @@ expect {
 expect {
     "\"meta-micro\" update success" {
 expect {
-    "Updating \"readme.txt\"" {
+    "Updating \"README.TXT\"" {
 expect {
-    "\"readme.txt\" update success" {
+    "\"README.TXT\" update success" {
 expect {
     "Updating \"run-tests-within-vm\"" {
 expect {

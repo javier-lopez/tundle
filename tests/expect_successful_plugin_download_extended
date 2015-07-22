@@ -44,9 +44,9 @@ expect {
 expect {
   "\"meta-micro\" download success" {
 expect {
-  "Installing \"readme.txt\"" {
+  "Installing \"README.TXT\"" {
 expect {
-  "\"readme.txt\" download success" {
+  "\"README.TXT\" download success" {
 expect {
   "Installing \"run-tests-within-vm\"" {
 expect {
@@ -79,7 +79,7 @@ expect {
 expect {
   "Already installed \"meta-micro\"" {
 expect {
-  "Already installed \"readme.txt\"" {
+  "Already installed \"README.TXT\"" {
 expect {
   "Already installed \"run-tests-within-vm\"" {
     expect { "Done, press ENTER to continue" { exit 0
