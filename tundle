@@ -1,12 +1,17 @@
 #!/bin/sh
 
 SUPPORTED_TMUX_VERSION="1.6"
-#SUPPORTED_TMUX_VERSION="1.9"
 
 CURRENT_DIR="$(cd "$(dirname "${0}")" && pwd)"
 
 . "${CURRENT_DIR}/scripts/vars.sh"
 . "${CURRENT_DIR}/scripts/helpers.sh"
+
+#source tmux variables so tundle can be located at any place in ~/.tmux.conf
+_reload_tmux_environment(){
+    awk "/^[ \t]*set/" ~/.tmux.conf > /tmp/tundle-init-environment && \
+    tmux source-file /tmp/tundle-init-environment >/dev/null 2>&1
+}
 
 # 1. Fetches plugin names from `@bundle|@plugin|@tpm_plugins` user variable.
 # 2. Creates full plugin path
@@ -48,6 +53,7 @@ _set_default_key_bindings() {
 }
 
 if _supported_tmux_version; then
+    _reload_tmux_environment
     _set_default_key_bindings
     _source_plugins
 else
