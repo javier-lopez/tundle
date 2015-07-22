@@ -47,9 +47,9 @@ Tundle is based on [tpm](https://github.com/tmux-plugins/tpm) with additional sy
    #setenv -g @bundle "file://path/to/tmux-plugin"
 
    # Brief help
-   # `prefix + I`       (I as in *I*install) to install configured bundles
+   # `prefix + I`       (I as in *I*nstall) to install configured bundles
    # `prefix + U`       (U as in *U*pdate) to update configured bundles
-   # `prefix + alt + u` (u as in *u*install) to remove unused bundles
+   # `prefix + alt + u` (u as in *u*ninstall) to remove unused bundles
    # `prefix + alt + l` (l as in *l*ist) to list installed bundles
    ```
 
@@ -75,8 +75,8 @@ If by any reason you dislike [Tundle](https://github.com/chilicuil/tundle) you c
 
 Common plugins are available in the following repositories:
 
-* [tundle-plugins](https://github.com/chilicuil/tundle-plugins) (tmux => 1.6 and posix sh)
-* [tmux-plugins](https://github.com/tmux-plugins)  (tmux => 1.9 and bash)
+* [tundle-plugins](https://github.com/chilicuil/tundle-plugins) (tmux => 1.6 / posix sh)
+* [tmux-plugins](https://github.com/tmux-plugins)  (tmux => 1.9 / bash)
 
 ## Inspiration and ideas from
 
