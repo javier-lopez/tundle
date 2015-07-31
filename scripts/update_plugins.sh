@@ -41,8 +41,8 @@ _update() {
 
     _update__plugin_name="$(_get_plugin_name_helper "${1}")"
     _print_message_helper "Updating \"${_update__plugin_name}\""
-    if [ "${TMUX_VERSION}" -lt "19" ]; then
-        #tmux < 1.9 versions delay the fullscreen output, so give additional notifications
+    if [ "${TMUX_VERSION}" -lt "18" ]; then
+        #tmux < 1.8 versions delay the fullscreen output, so give additional notifications
         _display_message_helper "Updating \"${_update__plugin_name}\"" "50000"
     fi
 
@@ -83,8 +83,8 @@ _handle_plugin_update() {
 
     if [ "${1}" = "all" ]; then
         _print_message_helper "Updating all plugins!"
-        if [ "${TMUX_VERSION}" -lt "19" ]; then
-            #tmux < 1.9 versions delay the fullscreen output, so give additional notifications
+        if [ "${TMUX_VERSION}" -lt "18" ]; then
+            #tmux < 1.8 versions delay the fullscreen output, so give additional notifications
             _display_message_helper "Updating all plugins!" "50000"
         fi
         _print_message_helper

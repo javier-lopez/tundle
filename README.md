@@ -26,7 +26,7 @@ Tundle is based on [tpm](https://github.com/tmux-plugins/tpm) with additional sy
    run-shell "~/.tmux/plugins/tundle/tundle"
 
    #let tundle manage tundle, required!
-   setenv -g @bundle "chilicuil/tundle" #set -g can be used if tmux >= 1.9
+   setenv -g @bundle "chilicuil/tundle" #set -g can be used if tmux >= 1.8
 
    #from GitHub
    setenv -g @BUNDLE "gh:chilicuil/tundle-plugins/tmux-sensible"

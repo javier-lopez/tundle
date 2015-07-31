@@ -70,13 +70,14 @@ _install_plugins() {
 
         if [ -d "${TMUX_PLUGIN_MANAGER_PATH}/${_iplugins__plugin_name}/" ]; then
             _print_message_helper "Already installed \"${_iplugins__plugin_name}\""
-            if [ "${TMUX_VERSION}" -lt "19" ]; then
-                #tmux < 1.9 versions delay fullscreen output, so give additional notifications
+            if [ "${TMUX_VERSION}" -lt "18" ]; then
+                #tmux < 1.8 versions delay fullscreen output, so give additional notifications
                 _display_message_helper "Already installed \"${_iplugins__plugin_name}\"" "50000"
             fi
         else
             _print_message_helper "Installing \"${_iplugins__plugin_name}\""
-            if [ "${TMUX_VERSION}" -lt "19" ]; then
+            if [ "${TMUX_VERSION}" -lt "18" ]; then
+                #tmux < 1.8 versions delay fullscreen output, so give additional notifications
                 _display_message_helper "Installing \"${_iplugins__plugin_name}\"" "50000"
             fi
             _iplugins__plugin_handler="${_iplugins__plugin%%:*}:"

@@ -37,7 +37,7 @@ _get_digits_from_string_helper() {
 _get_tmux_option_helper() {
     [ -z "${1}" ] && return 1
 
-    if [ "${TMUX_VERSION-16}" -ge "19" ]; then
+    if [ "${TMUX_VERSION-16}" -ge "18" ]; then
         _gtohelper__value="$(tmux show-option -gqv "${1}")"
     else #tmux => 1.6 altough could work on even lower tmux versions
         _gtohelper__value="$(tmux show-option -g|awk "/^${1}/ {gsub(/\'/,\"\");gsub(/\"/,\"\"); print \$2; exit;}")"
