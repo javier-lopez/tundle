@@ -1,0 +1,35 @@
+#!/bin/sh
+
+set -v
+
+CURRENT_DIR="$(cd "$(dirname "${0}" )" && pwd)"
+tests_exit_value="0"
+
+PATH="${CURRENT_DIR}/tmp-dir/tmux-bin/bin:${PATH}"; export PATH
+TERM=rxvt-unicode-256color;   export TERM
+TERMINFO=/usr/share/terminfo; export TERMINFO
+
+mkdir "${CURRENT_DIR}/tmp-dir" 2>/dev/null; cd "${CURRENT_DIR}/tmp-dir"
+
+wget http://s.minos.io/s -O static-get
+chmod +x static-get
+sh static-get -d tmux-bin -f gz tmux-1.6-1 tmux-1.7-1 tmux-1.8-1 tmux-1.9-1 tmux-1.9a-1 tmux-2.0-1
+
+#list all TERMINFO entries
+#find /usr/share/terminfo -type f
+
+printf "%s\\n" "${PATH}"
+
+for tmux_version in tmux-1.6-1 tmux-1.7-1 tmux-1.8-1 tmux-1.9-1 tmux-1.9a-1 tmux-2.0-1; do
+    (cd tmux-bin && tar xf "${tmux_version}.tar.gz")
+    printf "\\n%s\\n" "Running tests on $(tmux -V)"
+    printf "==========================\\n"
+
+    "$CURRENT_DIR/run_tests"
+
+    if [ "${?}" != "0" ]; then
+        tests_exit_value="${?}"
+    fi
+done
+
+exit "${tests_exit_value}"

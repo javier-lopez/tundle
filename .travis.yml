@@ -12,4 +12,5 @@ before_install:
   #- sudo apt-get update
   #- sudo apt-get install -y tmux=1.9a-1~ppa1~p
 
-script: ./tests/run_tests
+#script: ./tests/run_tests
+script: ./tests/run_tests_in_multiple_tmux_versions
