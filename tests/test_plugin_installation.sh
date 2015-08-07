@@ -1,21 +1,22 @@
 #!/bin/sh
 
 CURRENT_DIR="$(cd "$(dirname "${0}")" && pwd)"
-
 . "${CURRENT_DIR}"/helpers.sh
+_teardown_helper
 
 _set_tmux_conf_helper <<- HERE
-run-shell "${PWD}/tundle"
-setenv -g @tpm_plugins "tmux-plugins/tmux-example-plugin"
+run-shell "${CURRENT_DIR}/../tundle"
+setenv -g @tpm_plugins "chilicuil/tundle-plugins/tmux-sensible"
 HERE
 
-# opens tmux and test it with `expect`
-"${CURRENT_DIR}"/expect_successful_plugin_download ||
-    _fail_helper "Tmux plugin installation failed"
+case "${1}" in
+    m*) tmux ;; #test manually, helpful to debug
+    d*) expect -d "${CURRENT_DIR}"/plugin_install.exp ;;
+     *) expect "${CURRENT_DIR}"/plugin_install.exp || exec "${0}" debug ;;
+esac
 
-# check plugin dir exists after download
-[ -d "${HOME}/.tmux/plugins/tmux-example-plugin/" ] ||
-    _fail_helper "Plugin download failed"
+[ -d "${HOME}/.tmux/plugins/tmux-sensible/" ] ||
+    _fail_helper "${HOME}/.tmux/plugins/tmux-sensible/ doesn't exist but should"
 
 _teardown_helper
 _exit_value_helper

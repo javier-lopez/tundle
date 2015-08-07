@@ -1,29 +1,20 @@
 #!/usr/bin/env expect
 
-# disables script output
+#disables script output
 log_user 0
 
 spawn tmux
 
-# Waiting for tmux to attach. If this is not done, next command, `send` will
-# not work properly.
+#Waiting for tmux to attach.
 sleep 1
 
-## this is tmux prefix + U after chilicuil/tundle-plugins/tmux-sensible
+#this is tmux prefix + U after tmux-sensible
 send "U"
 
 set timeout 30
 
 expect {
     "Installed plugins" {
-expect {
-    "\"tmux-example-plugin\"" {
-expect {
-    "\"tmux-online-status\"" {
-expect {
-    "\"tmux-battery\"" {
-expect {
-    "\"tmux-sidebar\"" {
 expect {
     "\"tmux-sensible\"" {
 expect {
@@ -33,14 +24,22 @@ expect {
 expect {
     "\"README.TXT\"" {
 expect {
-    "\"run-tests-within-vm\"" {
+    "\"run_tests\"" {
+expect {
+    "\"tmux-example-plugin\"" {
+expect {
+    "\"tmux-online-status\"" {
+expect {
+    "\"tmux-battery\"" {
+expect {
+    "\"tmux-sidebar\"" {
 expect {
     "\"all\" - updates all plugins" {
     expect { "ENTER - cancels" }
           }}}}}}}}}}}}}}}}}}}}}
 
   timeout {
-    puts "Plugin update prompt timeout";
+    puts "tests/plugin_update_all_extended.exp: Couldn't see the update prompt, timeout";
     exit 1
   }
 }
@@ -49,22 +48,6 @@ send "all\r"
 
 expect {
     "Updating all plugins!" {
-expect {
-    "Updating \"tmux-example-plugin\"" {
-expect {
-    "\"tmux-example-plugin\" update success" {
-expect {
-    "Updating \"tmux-online-status\"" {
-expect {
-    "\"tmux-online-status\" update success" {
-expect {
-    "Updating \"tmux-battery\"" {
-expect {
-    "\"tmux-battery\" update success" {
-expect {
-    "Updating \"tmux-sidebar\"" {
-expect {
-    "\"tmux-sidebar\" update success" {
 expect {
     "Updating \"tmux-sensible\"" {
 expect {
@@ -82,14 +65,30 @@ expect {
 expect {
     "\"README.TXT\" update success" {
 expect {
-    "Updating \"run-tests-within-vm\"" {
+    "Updating \"run_tests\"" {
 expect {
-    "\"run-tests-within-vm\" update success" {
+    "\"run_tests\" update success" {
+expect {
+    "Updating \"tmux-example-plugin\"" {
+expect {
+    "\"tmux-example-plugin\" update success" {
+expect {
+    "Updating \"tmux-online-status\"" {
+expect {
+    "\"tmux-online-status\" update success" {
+expect {
+    "Updating \"tmux-battery\"" {
+expect {
+    "\"tmux-battery\" update success" {
+expect {
+    "Updating \"tmux-sidebar\"" {
+expect {
+    "\"tmux-sidebar\" update success" {
     expect { "Done, press ENTER to continue." { exit 0 } }
           }}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
 
   timeout {
-    puts "Update all plugins timeout";
+    puts "tests/plugin_update_all_extended.exp: Couldn't update 'all' plugins after the update prompt, timeout";
     exit 1
   }
 }

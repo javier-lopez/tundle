@@ -13,7 +13,7 @@ _stop_vagrant() {
 }
 
 _run_tests() {
-    vagrant ssh -c "cd ~/tpm; ./tests/run-tests-within-vm"
+    vagrant ssh -c "cd ~/tpm; ./tests/run_tests"
     tests_exit_value="${?}"
 }
 

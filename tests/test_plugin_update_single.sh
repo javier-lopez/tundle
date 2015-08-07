@@ -19,13 +19,9 @@ _manually_install_the_plugin
 
 case "${1}" in
     m*) tmux ;; #test manually, helpful to debug
-    d*) expect -d "${CURRENT_DIR}"/plugin_update_all.exp ;;
-     *) expect "${CURRENT_DIR}"/plugin_update_all.exp || exec "${0}" debug ;;
+    d*) expect -d "${CURRENT_DIR}"/plugin_update_single.exp ;;
+     *) expect "${CURRENT_DIR}"/plugin_update_single.exp || exec "${0}" debug ;;
 esac
-
-#expect -d "${CURRENT_DIR}"/plugin_update_single.exp ||
-expect "${CURRENT_DIR}"/plugin_update_single.exp ||
-    _fail_helper "Update single plugin test failed"
 
 _teardown_helper
 _exit_value_helper

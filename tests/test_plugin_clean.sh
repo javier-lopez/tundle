@@ -1,27 +1,24 @@
 #!/bin/sh
 
 CURRENT_DIR="$(cd "$(dirname "${0}")" && pwd)"
-
 . "${CURRENT_DIR}"/helpers.sh
-
-_manually_install_the_plugin() {
-    rm -rf   ~/.tmux/plugins/
-    mkdir -p ~/.tmux/plugins/
-    cd ~/.tmux/plugins/
-    git clone --quiet https://github.com/tmux-plugins/tmux-example-plugin
-}
+_teardown_helper
 
 _set_tmux_conf_helper <<- HERE
-run-shell "${PWD}/tundle"
+run-shell "${CURRENT_DIR}/../tundle"
 HERE
 
-_manually_install_the_plugin
+#manually creates a local tmux plugin
+rm -rf   ~/.tmux/plugins/
+_create_test_plugin_helper <<- HERE
+tmux bind-key R run-shell foo_command
+HERE
 
-#tmux #test manually, helpful to debug
-
-# opens tmux and test it with `expect`
-"${CURRENT_DIR}"/expect_successful_clean_plugins ||
-    _fail_helper "Clean plugin failed"
+case "${1}" in
+    m*) tmux ;; #test manually, helpful to debug
+    d*) expect -d "${CURRENT_DIR}"/plugin_clean.exp ;;
+     *) expect "${CURRENT_DIR}"/plugin_clean.exp || exec "${0}" debug ;;
+esac
 
 _teardown_helper
 _exit_value_helper

@@ -1,0 +1,91 @@
+#!/usr/bin/env expect
+
+#disables script output
+log_user 0
+
+spawn tmux
+
+#Waiting for tmux to attach.
+sleep 1
+
+#this is tmux prefix + I
+send "I"
+
+#cloning might take a while
+set timeout 30
+
+expect {
+  "Installing \"tmux-sensible\"" {
+expect {
+  "\"tmux-sensible\" download success" {
+expect {
+  "Installing \"sha1sum.txt\"" {
+expect {
+  "\"sha1sum.txt\" download success" {
+expect {
+  "Installing \"meta-micro\"" {
+expect {
+  "\"meta-micro\" download success" {
+expect {
+  "Installing \"README.TXT\"" {
+expect {
+  "\"README.TXT\" download success" {
+expect {
+  "Installing \"run_tests\"" {
+expect {
+  "\"run_tests\" download success" {
+expect {
+  "Installing \"tmux-example-plugin\"" {
+expect {
+  "\"tmux-example-plugin\" download success" {
+expect {
+  "Installing \"tmux-online-status\"" {
+expect {
+  "\"tmux-online-status\" download success" {
+expect {
+  "Installing \"tmux-battery\"" {
+expect {
+  "\"tmux-battery\" download success" {
+expect {
+  "Installing \"tmux-sidebar\"" {
+expect {
+  "\"tmux-sidebar\" download success" {
+    expect { "Done, press ENTER to continue" {
+        send ""
+    }}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
+
+  timeout {
+    puts "tests/plugin_install_extended.exp: Couldn't install all plugins on time, timeout";
+    exit 1
+  }
+}
+
+#this is tmux prefix + I after tmux-sensible
+send "I"
+
+expect {
+  "Already installed \"tmux-sensible\"" {
+expect {
+  "Already installed \"sha1sum.txt\"" {
+expect {
+  "Already installed \"meta-micro\"" {
+expect {
+  "Already installed \"README.TXT\"" {
+expect {
+  "Already installed \"run_tests\"" {
+expect {
+  "Already installed \"tmux-example-plugin\"" {
+expect {
+  "Already installed \"tmux-online-status\"" {
+expect {
+  "Already installed \"tmux-battery\"" {
+expect {
+  "Already installed \"tmux-sidebar\"" {
+    expect { "Done, press ENTER to continue" { exit 0
+    }}}}}}}}}}}}}}}}}}}
+
+  timeout {
+    puts "tests/plugin_install_extended.exp: Couldn't re-install all plugins on time, timeout";
+    exit 1
+  }
+}

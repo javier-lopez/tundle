@@ -1,15 +1,11 @@
 #!/bin/sh
 
-# A test runner file.
-# Intended to be run from `./run-tests` script *within* a virtual machine.
-# DO NOT run it locally as it might overwrite your `.tmux.conf` (that's what it
-# does during the tests).
-
 CURRENT_DIR="$(cd "$(dirname "${0}" )" && pwd)"
 tests_exit_value="0"
 
 _run_tests() {
-    rm -rf ~/.tmux*
+    rm -rf ~/.tundle.tests.backup && mkdir ~/.tundle.tests.backup
+    mv     ~/.tmux* ~/.tundle.tests.backup 2>/dev/null
 
     if [ -z "${1}" ]; then
         for _rtests__test in "${CURRENT_DIR}"/test*; do
@@ -32,6 +28,9 @@ _run_tests() {
             fi
         done
     fi
+
+    rm -rf ~/.tmux* && mv ~/.tundle.tests.backup/* ~/ 2>/dev/null
+    rm -rf ~/.tundle.tests.backup
 }
 
 _run_tests "${@}"

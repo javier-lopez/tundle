@@ -1,0 +1,29 @@
+#!/usr/bin/env expect
+
+#disables script output
+log_user 0
+
+spawn tmux
+
+#Waiting for tmux to attach.
+sleep 1
+
+#this is tmux prefix + alt + u
+send "u"
+
+set timeout 5
+
+expect {
+  "Removing \"tmux_test_plugin\"" {
+    expect {
+      "\"tmux_test_plugin\" clean success" {
+        expect { "Done, press ENTER to continue." { exit 0 } }
+        }
+      }
+    }
+
+  timeout {
+    puts "tests/plugin_clean.exp: Couldn't wipe out tmux_test_plugin, timeout";
+    exit 1
+  }
+}

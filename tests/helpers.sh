@@ -48,7 +48,7 @@ _create_test_plugin_helper() {
 }
 
 _teardown_helper() {
-    rm ~/.tmux.conf
+    rm -rf ~/.tmux.conf
     rm -rf ~/.tmux/
     tmux kill-server >/dev/null 2>&1
 }
