@@ -106,9 +106,11 @@ _install_plugins() {
     done
 }
 
-_reload_tmux_environment_helper
-_install_plugins
-_reload_tmux_environment_helper
-_reloaded_message_helper
+if _supported_tmux_version_helper; then #required for non interactive installs
+    _reload_tmux_environment_helper
+    _install_plugins
+    _reload_tmux_environment_helper
+    _reloaded_message_helper
+fi
 
 # vim: set ts=8 sw=4 tw=0 ft=sh :
