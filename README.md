@@ -28,13 +28,16 @@ Tundle is based on [tpm](https://github.com/tmux-plugins/tpm) with additional sy
    #let tundle manage tundle, required!
    setenv -g @bundle "chilicuil/tundle" #set -g can be used if tmux >= 1.8
 
-   #from GitHub
+   #from GitHub, tundle-plugins
    setenv -g @BUNDLE "gh:chilicuil/tundle-plugins/tmux-sensible"
        #options
-       #setenv -g @plugin-option "setting"
-   setenv -g @plugin "tmux-plugins/tmux-battery"
-   setenv -g @PLUGIN "github:tmux-plugins/tmux-sidebar:master"
-   setenv -g @bundle "https://github.com/tmux-plugins/tmux-online-status:990737"
+   setenv -g @plugin "chilicuil/tundle-plugins/tmux-pain-control"
+       setenv -g @pane_resize "10"
+   setenv -g @PLUGIN "github:chilicuil/tundle-plugins/tmux-copycat:master"
+   setenv -g @bundle "https://github.com/chilicuil/tundle-plugins/tmux-yank:3f821b0"
+
+   #from GitHub, tmux-plugins
+   setenv -g @bundle "tmux-plugins/tmux-resurrect"
 
    #from non GitHub
    #setenv -g @bundle "git://git.domain.ltd/rep.git"
