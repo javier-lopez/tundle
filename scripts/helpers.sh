@@ -70,7 +70,7 @@ _get_tmux_option_global_helper() {
         printf "%s" "${_gtoghelper__option}"
 }
 
-_supported_tmux_version() {
+_supported_tmux_version_helper() {
     _stversion__supported="$(_get_digits_from_string_helper "${SUPPORTED_TMUX_VERSION}")"
     if [ -z "${TMUX_VERSION}" ] || [ -z "$(_get_tmux_environment_helper "TMUX_VERSION")" ]; then
         TMUX_VERSION="$(_get_digits_from_string_helper "$(tmux -V)")"

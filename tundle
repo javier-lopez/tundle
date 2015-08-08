@@ -52,7 +52,7 @@ _set_default_key_bindings() {
     tmux bind-key "${_sdkbindings__list_key}" run-shell "${CURRENT_DIR}/scripts/list_plugins.sh"
 }
 
-if _supported_tmux_version; then
+if _supported_tmux_version_helper; then
     _reload_tmux_environment
     _set_default_key_bindings
     _source_plugins
