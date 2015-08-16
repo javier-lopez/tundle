@@ -27,9 +27,9 @@ _mkdir_p_helper() { #portable mkdir -p
     done
 }
 
-# this is used to get "clean" integer version number. Examples:
-# `tmux 1.9` => `19`
-# `1.9a`     => `19`
+#this is used to get "clean" integer version number, eg:
+#`tmux 1.9` => `19`
+#`1.9a`     => `19`
 _get_digits_from_string_helper() {
     [ -n "${1}" ] &&  printf "%s\\n" "${1}" | tr -dC '0123456789'
 }
@@ -39,7 +39,7 @@ _get_tmux_option_helper() {
 
     if [ "${TMUX_VERSION-16}" -ge "18" ]; then
         _gtohelper__value="$(tmux show-option -gqv "${1}")"
-    else #tmux => 1.6 altough could work on even lower tmux versions
+    else #tmux => 1.6 altough could work on lower tmux versions
         _gtohelper__value="$(tmux show-option -g|awk "/^${1}/ {gsub(/\'/,\"\");gsub(/\"/,\"\"); print \$2; exit;}")"
     fi
 
@@ -81,34 +81,28 @@ _supported_tmux_version_helper() {
     [ "${TMUX_VERSION}" -lt "${_stversion__supported}" ] && return 1 || return 0
 }
 
-# Ensures TMUX_PLUGIN_MANAGER_PATH global env variable is set.
-# That's where all the plugins are downloaded.
+#ensures TMUX_PLUGIN_MANAGER_PATH global env variable is set
+#that's where all the plugins are downloaded
 #
-# Default path is "$HOME/.tmux/plugins/" (scripts/variables.sh)
+#Default path is "$HOME/.tmux/plugins/" (scripts/vars.sh)
 #
-# Put this in `.tmux.conf` to override the default:
-# `set-environment -g TMUX_PLUGIN_MANAGER_PATH "/some/other/path/"`
+#put this in `.tmux.conf` to override the default:
+#`set-environment -g TMUX_PLUGIN_MANAGER_PATH "/some/other/path/"`
 _set_default_vars_helper() {
     [ -z "${TMUX_PLUGIN_MANAGER_PATH}" ] || return 0
 
     TMUX_PLUGIN_MANAGER_PATH="$(_get_tmux_environment_helper "TMUX_PLUGIN_MANAGER_PATH")"
     if [ -z "${TMUX_PLUGIN_MANAGER_PATH}" ]; then
         tmux set-environment -g TMUX_PLUGIN_MANAGER_PATH "${DEFAULT_TMUX_PLUGIN_MANAGER_PATH%/}"
-        TMUX_PLUGIN_MANAGER_PATH="$(printf "%s\\n" "${DEFAULT_TMUX_PLUGIN_MANAGER_PATH}" | \
-        sed "s:\$HOME:${HOME}:g;s:~/:${HOME}/:;s:\"::g;s:\'::g;")"
-    else
-        TMUX_PLUGIN_MANAGER_PATH="$(printf "%s\\n" "${TMUX_PLUGIN_MANAGER_PATH}" | \
-        sed "s:\$HOME:${HOME}:g;s:~/:${HOME}/:;s:\"::g;s:\'::g;")"
+        TMUX_PLUGIN_MANAGER_PATH="${DEFAULT_TMUX_PLUGIN_MANAGER_PATH}"
     fi
 
+    TMUX_PLUGIN_MANAGER_PATH="$(printf "%s\\n" "${TMUX_PLUGIN_MANAGER_PATH}" | \
+        sed "s:\$HOME:${HOME}:g;s:~/:${HOME}/:;s:\"::g;s:\'::g;")"
     TMUX_PLUGIN_MANAGER_PATH="${TMUX_PLUGIN_MANAGER_PATH%/}"
 
     #speed up consecutive calls
     export TMUX_PLUGIN_MANAGER_PATH
-}
-
-_ensure_default_tmux_plugin_path_exists_helper() {
-    _mkdir_p_helper "${TMUX_PLUGIN_MANAGER_PATH}"
 }
 
 _get_plugins_list_helper() {
@@ -119,35 +113,35 @@ _get_plugins_list_helper() {
     [ -z "${_gplhelper__list}" ] && return 1 || printf "%s\\n" "${_gplhelper__list}"
 }
 
-# Allowed plugin name formats:
-# 1.  "user/plugin_name"
-# 2.  "user/plugin_name:branch"
-# 3.  "gh:user/plugin_name"
-# 4.  "gh:user/plugin_name:branch"
-# 5.  "github:user/plugin_name"
-# 6.  "github:user/plugin_name:branch"
-# 7.  "http://github.com/user/plugin_name"
-# 8.  "https://github.com/user/plugin_name:branch"
-# 9.  "git://github.com/user/plugin_name.git"
-# 10. "git://github.com/user/plugin_name.git:branch"
-# 11. "git://domain.tld/plugin_name"
-# 12. "git://domain.tld/plugin_name:branch"
-# 13. "http://domain.tld/plugin_name"
-# 14. "https://domain.tld/plugin_name"
-# 15. "ftp://domain.tld/plugin_name"
-# 16. "file://local/path/plugin_name"
+#allowed plugin name formats:
+#1.  "user/plugin_name"
+#2.  "user/plugin_name:branch"
+#3.  "gh:user/plugin_name"
+#4.  "gh:user/plugin_name:branch"
+#5.  "github:user/plugin_name"
+#6.  "github:user/plugin_name:branch"
+#7.  "http://github.com/user/plugin_name"
+#8.  "https://github.com/user/plugin_name:branch"
+#9.  "git://github.com/user/plugin_name.git"
+#10. "git://github.com/user/plugin_name.git:branch"
+#11. "git://domain.tld/plugin_name"
+#12. "git://domain.tld/plugin_name:branch"
+#13. "http://domain.tld/plugin_name"
+#14. "https://domain.tld/plugin_name"
+#15. "ftp://domain.tld/plugin_name"
+#16. "file://local/path/plugin_name"
 _get_plugin_name_helper() {
     [ -z "${1}" ] && return 1
-    # get only the part after the last slash, e.g. "plugin_name.git:branch"
+    #get only the part after the last slash, e.g. "plugin_name.git:branch"
     _gpnhelper__basename="${1##*/}"
-    # remove branch (if it exists) to get only "plugin_name.git"
+    #remove branch (if it exists) to get only "plugin_name.git"
     _gpnhelper__name="${_gpnhelper__basename%:*}"
-    # remove ".git" extension (if it exists) to get only "plugin_name"
+    #remove ".git" extension (if it exists) to get only "plugin_name"
     printf "%s\\n" "${_gpnhelper__name%.git}"
 }
 
-# TMUX messaging is weird. You only get a nice clean pane if you do it with
-# `run-shell` command.
+#TMUX messaging is weird. You only get a nice clean pane if you do it with
+#`run-shell` command
 _print_message_helper() {
     if [ -z "${1}" ]; then
         tmux run-shell 'printf "%s\\n" " "'

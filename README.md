@@ -62,7 +62,7 @@ Tundle is based on [tpm](https://github.com/tmux-plugins/tpm) with additional sy
    $ tmux source-file ~/.tmux.conf
    ```
 
-Hit `prefix + I` (or run `here tmux free installation script` for CLI lovers)
+Hit `prefix + I` (or run `~/.tmux/plugins/tundle/scripts/install_plugins.sh` for CLI lovers)
 
 Installation requires [Git](http://git-scm.com/) and triggers [`git clone`](http://gitref.org/creating/#clone) for each configured repo to `~/.tmux/plugins/`.
 

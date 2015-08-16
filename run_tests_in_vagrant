@@ -6,8 +6,8 @@ _run_vagrant() {
     vagrant up
 }
 
-# Halt vagrant after tests are done running, unless KEEP_RUNNING environment
-# variable is set to 'true'.
+#halt vagrant after tests are done running, unless KEEP_RUNNING environment
+#variable is set to 'true'.
 _stop_vagrant() {
     [ -z "${KEEP_RUNNING}" ] && vagrant halt
 }

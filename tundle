@@ -1,7 +1,5 @@
 #!/bin/sh
 
-SUPPORTED_TMUX_VERSION="1.6"
-
 CURRENT_DIR="$(cd "$(dirname "${0}")" && pwd)"
 
 . "${CURRENT_DIR}/scripts/vars.sh"
