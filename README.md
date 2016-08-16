@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/chilicuil/tundle.png?branch=master)](https://travis-ci.org/chilicuil/tundle)
 
-[Tundle](https://github.com/chilicuil/tundle/) is short for _tmux + bundle_ and is a [tmux](http://en.wikipedia.org/wiki/tmux) plugin manager.
+[Tundle](https://github.com/chilicuil/tundle/) is a portmanteau of _tmux_ and _bundle_, and is a [tmux](http://en.wikipedia.org/wiki/tmux) plugin manager.
 
 <p align="center">
 <img src="http://javier.io/assets/img/tundle.gif" alt="tundle"/>
