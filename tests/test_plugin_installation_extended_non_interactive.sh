@@ -7,7 +7,7 @@ _teardown_helper
 _set_tmux_conf_helper <<- HERE
 run-shell "${CURRENT_DIR}/../tundle"
 
-setenv -g @bundle "chilicuil/tundle-plugins/tmux-sensible:c5c7ea1"
+setenv -g @bundle "javier-lopez/tundle-plugins/tmux-sensible:c5c7ea1"
 setenv -g @bundle "http://ovh.net/files/sha1sum.txt"
 setenv -g @bundle "git://git.openembedded.org/meta-micro"
 setenv -g @bundle "ftp://ftp1.us.freebsd.org/pub/FreeBSD/README.TXT"
@@ -26,7 +26,7 @@ case "${1}" in
 esac
 
 [ -d "${HOME}/.tmux/plugins/tmux-sensible/" ] ||
-    _fail_helper "chilicuil/tundle-plugins/tmux-sensible:c5c7ea1 => ${HOME}/.tmux/plugins/tmux-sensible/ doesn't exist but should"
+    _fail_helper "javier-lopez/tundle-plugins/tmux-sensible:c5c7ea1 => ${HOME}/.tmux/plugins/tmux-sensible/ doesn't exist but should"
 
 [ -d "${HOME}/.tmux/plugins/sha1sum.txt/" ] ||
     _fail_helper "http://ovh.net/files/sha1sum.txt => ${HOME}/.tmux/plugins/sha1sum.txt/ doesn't exist but should"

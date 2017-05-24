@@ -6,7 +6,7 @@ _teardown_helper
 
 _set_tmux_conf_helper <<- HERE
 run-shell "${CURRENT_DIR}/../tundle"
-setenv -g @bundle "https://github.com/chilicuil/tundle-plugins/tmux-sensible:master"
+setenv -g @bundle "https://github.com/javier-lopez/tundle-plugins/tmux-sensible:master"
 setenv -g @bundle "http://ovh.net/files/sha1sum.txt"
 setenv -g @bundle "git://git.openembedded.org/meta-micro"
 setenv -g @bundle "ftp://ftp1.us.freebsd.org/pub/FreeBSD/README.TXT"
