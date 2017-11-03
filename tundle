@@ -55,8 +55,14 @@ if _supported_tmux_version_helper; then
     _set_default_key_bindings
     _source_plugins
 else
-    _display_message_helper "$(printf "%s\\n" \
-    "Error, Tmux version unsupported! Please install Tmux version ${SUPPORTED_TMUX_VERSION} or greater!")"
+    TMUX_VERSION="$(_get_tmux_option_global_helper "TMUX_VERSION")"
+    if [ -z "$TMUX_VERSION" ]; then
+        _display_message_helper "$(printf "%s\\n%s\\n" \
+        "Error, tmux has not -V option available in $(uname -s) $(uname -r), unsupported platform!: https://github.com/javier-lopez/tundle/issues/4")"
+    else
+        _display_message_helper "$(printf "%s\\n" \
+        "Error, tmux version ${TMUX_VERSION} unsupported! Please install tmux version >= ${SUPPORTED_TMUX_VERSION}!")"
+    fi
     exit 1
 fi
 
