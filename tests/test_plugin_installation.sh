@@ -6,7 +6,7 @@ _teardown_helper
 
 _set_tmux_conf_helper <<- HERE
 run-shell "${CURRENT_DIR}/../tundle"
-setenv -g @tpm_plugins "chilicuil/tundle-plugins/tmux-sensible"
+setenv -g @tpm_plugins "javier-lopez/tundle-plugins/tmux-sensible"
 HERE
 
 case "${1}" in

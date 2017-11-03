@@ -26,7 +26,7 @@ _git_checkout() {
 
 #tries cloning in expected frecuency order:
 #1. expands the plugin name to point to a github repo and checkout an specific directory
-#  eg: 'chilicuil/tundle-plugins/plugin'
+#  eg: 'javier-lopez/tundle-plugins/plugin'
 #2. expands the plugin name to point to a github repo and tries cloning again
 #  eg: 'tmux-plugins/plugin'
 #3. uses the plugin name directly - works if it's a valid git url
