@@ -39,13 +39,17 @@ _install_plugin_git() {
         _git_clone_subdirectory "https://git::@github.com/${_ipgit__plugin}" || \
             _git_clone_subdirectory "${_ipgit__plugin}" || \
             _git_clone "https://git::@github.com/${_ipgit__plugin}" || \
-            _git_clone "git:${_ipgit__plugin}" || return 1
+            _git_clone "git:${_ipgit__plugin}" || \
+            _git_clone "ssh:${_ipgit__plugin}" || \
+            _git_clone "${_ipgit__plugin}" || return 1
         _git_checkout "${_ipgit__plugin}" "${_ipgit__branch#:}"
     else
         _git_clone_subdirectory "https://git::@github.com/${_ipgit__plugin}" "--depth=1" || \
             _git_clone_subdirectory "${_ipgit__plugin}" "--depth=1" || \
             _git_clone "https://git::@github.com/${_ipgit__plugin}" "--depth=1" || \
-            _git_clone "git:${_ipgit__plugin}" "--depth=1"
+            _git_clone "git:${_ipgit__plugin}" "--depth=1" || \
+            _git_clone "ssh:${_ipgit__plugin}" "--depth=1" || \
+            _git_clone "${1}" "--depth=1"
     fi
 }
 
@@ -112,14 +116,14 @@ _install_plugins() {
                     /*|~*|\$*) _install_plugin_local "${_iplugins__plugin}" >/dev/null 2>&1 ;;
                             *) _install_plugin_git   "${_iplugins__plugin}" >/dev/null 2>&1 ;;
                         esac ;;
-                gh:|github:|git@github.com:|git:) _install_plugin_git "${_iplugins__plugin_base}" >/dev/null 2>&1 ;;
+                gh:|github:|git@github.com:|git:|ssh:) _install_plugin_git "${_iplugins__plugin_base}" >/dev/null 2>&1 ;;
                 http:|ftp:) _install_plugin_web "${_iplugins__plugin}" >/dev/null 2>&1 ;;
                 https:) case "${_iplugins__plugin}" in
                         *github.com/*) _install_plugin_git "${_iplugins__plugin_base#//github.com/}" >/dev/null 2>&1 ;;
                                     *) _install_plugin_web "${_iplugins__plugin}" >/dev/null 2>&1 ;;
                         esac ;;
                 file:) _install_plugin_local "${_iplugins__plugin_base#//}" >/dev/null 2>&1 ;;
-                *) _set_false_helper ;;
+                *) _install_plugin_git "${_iplugins__plugin}"  >/dev/null 2>&1 ;;
             esac
 
             if [ "${?}" = "0" ]; then
