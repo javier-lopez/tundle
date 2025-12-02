@@ -1,7 +1,5 @@
 ## About
 
-[![Build Status](https://travis-ci.org/javier-lopez/tundle.png?branch=master)](https://travis-ci.org/javier-lopez/tundle)
-
 [Tundle](https://github.com/javier-lopez/tundle/) is a portmanteau of _tmux_ and _bundle_, and is a [tmux](http://en.wikipedia.org/wiki/tmux) plugin manager.
 
 <p align="center">
